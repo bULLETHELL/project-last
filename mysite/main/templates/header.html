@@ -8,15 +8,26 @@
 </head>
 <body>
     <nav>
-        <div class="nav-wrapper">
-            <a href="/" class="brand-logo"><img id="navlogo" alt="Home" src=""></a>
-            <ul id="nav-mobile" class="right hide-on-med-and-down">
-                <li><a href="/">Forside</a></li>
-                <li><a href="/admin">Admin</a></li>
-                <li><a href="/logout">Logout</a></li>
+        <div class="nav-wrapper blue">
+            <a href="#" data-target="mobile-demo" class="sidenav-trigger show-on-large"><i class="material-icons" style="font-size: 40px;">menu</i></a>
+            <a href="/" class="brand-logo"><i class="large material-icons" style="font-size: 40px;">home</i></a>
+            <ul id="nav-mobile" class="right">
+                <li><a href="/profile"><i class="material-icons">account_circle</i></a></li>
+                <li><a href="/admin"><i class="material-icons">admin_panel_settings</i></a></li>
+                <li><a href="/logout"><i class="material-icons">logout</i></a></li>
             </ul>
         </div>
     </nav>
+    <ul class="sidenav blue" id="mobile-demo">
+        <h5 style="margin-left: 20px; color: white;">Feeds</h5>
+        <li><a class="waves-effect waves-light" href="/" style="color: white;"><i class="material-icons" style="color: white;">dashboard</i>Default Feed</a></li>
+        <li><a class="waves-effect waves-light" href="/" style="color: white;"><i class="material-icons" style="color: white;">dashboard</i>Custom Feed 1</a></li>
+    </ul>
     {% block content %}
     {% endblock content %}
+    <script>
+        $(document).ready(function(){
+            $('.sidenav').sidenav();
+        });
+    </script>
 </body>
