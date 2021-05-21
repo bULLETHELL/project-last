@@ -5,3 +5,7 @@ from django.http import HttpResponse
 def homepage(request):
     return render(request = request,
                   template_name = "homepage.html",)
+
+def profile(request):
+    return render(request = request,
+                  template_name = 'profile.html',)
