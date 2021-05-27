@@ -2,24 +2,39 @@
 	<!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <!-- Compiled and minified JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </head>
-<body>
+<body style="background-color: dodgerblue">
     <nav>
         <div class="nav-wrapper blue">
-            <a href="#" data-target="mobile-demo" class="sidenav-trigger show-on-large"><i class="material-icons" style="font-size: 40px;">menu</i></a>
-            <a href="/" class="brand-logo"><i class="large material-icons" style="font-size: 40px;">home</i></a>
+            <a href="#" data-target="feeds_side_nav" class="sidenav-trigger show-on-large"><i class="material-icons" style="font-size: 3rem;">menu</i></a>
             <ul id="nav-mobile" class="right">
-                <li><i class="material-icons">search<input type="text" placeholder="Search"/></i></li>
-                <li><a href="/profile"><i class="material-icons">account_circle</i></a></li>
+                <li><a href="/"><i class="material-icons">home</i></a></li>
+                <li>
+                    <form>
+                        <div class="input-field">
+                            <input class="blue" id="search_bar" type="search" placeholder="Search" style="color: white;" required>
+                            <label class="label-icon" for="search_bar"><i class="material-icons" style="color: white;">search</i></label>
+                        </div>
+                    </form>
+                </li>
+                <li><a href="/profile" class="dropdown-trigger" data-target="profile-dropdown"><i class="material-icons">account_circle</i></a></li>
                 <li><a href="/admin"><i class="material-icons">admin_panel_settings</i></a></li>
                 <li><a href="/logout"><i class="material-icons">logout</i></a></li>
             </ul>
+            <ul id="profile-dropdown" class="dropdown-content blue">
+                <li>
+                    <a href="/profile" style="color: white;"><i class="material-icons" style="color: white;">account_circle</i>Your Profile</a>
+                </li>
+                <li>
+                    <a href="/profile/settings" style="color: white;"><i class="material-icons" style="color: white;">settings</i>Settings</a>
+                </li>
+            </ul>
         </div>
     </nav>
-    <ul class="sidenav blue" id="mobile-demo">
+    <ul class="sidenav blue" id="feeds_side_nav">
         <h5 style="margin-left: 20px; color: white;">Feeds</h5>
         <li><a class="waves-effect waves-light" href="/" style="color: white;"><i class="material-icons" style="color: white;">dashboard</i>Default Feed</a></li>
         <li><a class="waves-effect waves-light" href="/" style="color: white;"><i class="material-icons" style="color: white;">dashboard</i>Custom Feed 1</a></li>
@@ -29,6 +44,9 @@
     <script>
         $(document).ready(function(){
             $('.sidenav').sidenav();
+            $('.dropdown-trigger').dropdown({
+                coverTrigger: false
+            });
         });
     </script>
 </body>
