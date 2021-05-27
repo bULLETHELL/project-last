@@ -1,0 +1,52 @@
+{% extends 'header.html' %}
+<body>
+	{% block content %}
+	<div>
+		<h5 style="text-align: center; color: white; font-weight: bold">Default Feed</h5>
+	  <div class="row">
+		  <div class="col m3"></div>
+		<div class="col s12 m6">
+		  <div class="card blue z-depth-3" style="outline: 2px white">
+			<div class="card-content white-text">
+				<div class="row valign-wrapper">
+					<div class="col s2">
+						<img src="https://64.media.tumblr.com/avatar_ac798bf64e72_128.pnj" alt="" class="circle responsive-img" style="display: inline">
+					</div>
+					<div class="col s10">
+						<span class="card-title">Michael Johnson</span>
+					<p>This is a post that all my friends can see.</p>
+				</div>
+			</div>
+			<div class="card-action">
+				<a href="#"><i class="material-icons" style="color: white;">thumb_up</i></a>
+				<a href="#"><i class="material-icons" style="color: white;">thumb_down</i></a>
+				<a href="#replyModal" class="modal-trigger"><i class="material-icons" style="color: white;">comment</i></a>
+			<div id="replyModal" class="modal blue">
+				<div class="modal-content">
+					<h4>Reply</h4>
+					<div class="row">
+						<form class="col s12">
+							<div class="row">
+								<div class="input-field col s12">
+									<textarea id="reply" class="materialize-textarea" placeholder="Reply Text"></textarea>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="modal-footer blue">
+				  <a href="#!" class="modal-close waves-effect waves-white btn-flat" style="color: white;">Send</a>
+				</div>
+			</div>
+		  </div>
+		</div>
+		  <div class="col m3"></div>
+	  </div>
+	</div>
+	<script>
+		$(document).ready(function(){
+			$('.modal').modal();
+		});
+	</script>
+	{% endblock content %}
+</body>
