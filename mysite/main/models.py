@@ -1,13 +1,13 @@
 from typing import Callable
 from django.db import models
-from django.db.models import CharField, TextField, ManyToManyField, OneToOneField, ForeignKey, DateField, TimeField, DateTimeField, IntegerField, DecimalField, CASCADE,
+from django.db.models import CharField, TextField, ManyToManyField, OneToOneField, ForeignKey, DateField, TimeField, DateTimeField, IntegerField, DecimalField, CASCADE
 import datetime
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import User
 from django.conf import settings
 # Create your models here.
-class address(models.model):
+class address(models.Model):
     profileAddress = CharField(max_length=100)
     profileCity = CharField(max_length=50)
     profilePostalCode = IntegerField()
@@ -46,7 +46,7 @@ class Post(models.Model):
 
 class Comment(models.Model):
     content = TextField()
-    author = ForeignKey(User)
+    author = ForeignKey(User, on_delete=CASCADE)
     score = IntegerField()
 
 class PostComment(Comment):
