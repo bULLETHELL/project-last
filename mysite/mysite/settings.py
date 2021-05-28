@@ -75,13 +75,17 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-
-
+    "default": {
+        "ENGINE": "djongo",
+        "CLIENT": {
+            "host": "mongodb+srv://funkyxive:Andr439d@cluster0-h18kl.mongodb.net/<dbname>?retryWrites=true&w=majority",
+            "username": "funkyxive",
+            "password": "Andr439d",
+            "name": "project-last",
+            "authMechanism": "SCRAM-SHA-1",
+        },
+    }}
+#
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 
