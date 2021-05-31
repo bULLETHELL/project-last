@@ -13,6 +13,10 @@ class address(models.Model):
     postalCode = IntegerField()
     def __str__(self):
         return f"{self.address} {self.city} {self.postalCode}"
+    profileAddress = CharField(max_length=100)
+    profileCity = CharField(max_length=50)
+    profilePostalCode = IntegerField()
+
 class Group(models.Model):
     name = CharField(max_length=50)
     description = TextField()
