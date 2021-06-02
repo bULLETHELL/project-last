@@ -1,20 +1,25 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from django.contrib.auth import login
+from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .forms import NewUserForm, RegisterProfileForm, AddressForm
+from .forms import NewUserForm, RegisterProfileForm, AddressForm, LoginForm
 
 # Create your views here.
 def homepage(request):
     return render(request = request,
                   template_name = "homepage.html",
-                  context= {'register_user_form': NewUserForm,
+                  context={'register_user_form': NewUserForm,
                             'register_profile_form': RegisterProfileForm,
-                            'address_form': AddressForm})
+                            'address_form': AddressForm,
+                            'login_form': LoginForm})
 
 def profile(request):
     return render(request = request,
-                  template_name = 'profile.html',)
+                  template_name = 'profile.html',
+                  context={'register_user_form': NewUserForm,
+                            'register_profile_form': RegisterProfileForm,
+                            'address_form': AddressForm,
+                            'login_form': LoginForm})
 
 def register(request):
     if request.method == 'POST':
@@ -42,3 +47,20 @@ def register(request):
     return render(request=request,
                   template_name='homepage.html',
                   context={'user_creation_form': user_creation_form})
+
+def login_request(request):
+    if request.method == 'POST':
+        login_form = LoginForm(request=request, data=request.POST)
+        if login_form.is_valid():
+            username = login_form.cleaned_data.get('username')
+            password = login_form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('/')
+    return redirect('main:homepage')
+
+def logout_request(request):
+    logout(request)
+    return redirect('main:homepage')
+
