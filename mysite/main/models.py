@@ -7,12 +7,21 @@ from django.dispatch import receiver
 from django.contrib.auth.models import User
 from django.conf import settings
 # Create your models here.
-class address(models.Model):
+class Address(models.Model):
     address = CharField(max_length=100)
     city = CharField(max_length=50)
     postalCode = IntegerField()
     def __str__(self):
         return f"{self.address} {self.city} {self.postalCode}"
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(profileUser=instance)
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()
 
 class Group(models.Model):
     name = CharField(max_length=50)
@@ -33,7 +42,7 @@ class CustomFeed(models.Model):
 class Profile(models.Model):
     profileUser = OneToOneField(User, on_delete=CASCADE)
     profilePhoneNumber = DecimalField(decimal_places=0, max_digits=8)
-    profileAddress = ForeignKey(address, on_delete=CASCADE)
+    profileAddress = ForeignKey(Address, on_delete=CASCADE)
     friendlist = ManyToManyField(User, related_name="userFriendlist")
     customFeeds = ManyToManyField(CustomFeed)
     def __str__(self):
@@ -45,7 +54,7 @@ class Event(models.Model):
     host = ForeignKey(User, on_delete=CASCADE, related_name="hostingUser")
     start_datetime = DateTimeField()
     end_datetime = DateTimeField()
-    address = ForeignKey(address, on_delete=CASCADE)
+    address = ForeignKey(Address, on_delete=CASCADE)
     description = TextField()
     def __str__(self):
         return f"{self.name}"

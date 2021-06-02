@@ -21,9 +21,41 @@
                     </form>
                 </li>
                 <li><a href="/profile" class="dropdown-trigger" data-target="profile-dropdown"><i class="material-icons">account_circle</i></a></li>
+                {% if user.is_superuser %}
                 <li><a href="/admin"><i class="material-icons">admin_panel_settings</i></a></li>
+                {% endif %}
+                {% if user.is_authenticated %}
                 <li><a href="/logout"><i class="material-icons">logout</i></a></li>
+                {% endif %}
+                <li><a class="modal-trigger" href="#login_modal"><i class="material-icons">login</i></a></li>
             </ul>
+            <div id="login_modal" class="modal blue">
+                <div class="modal-content">
+                    <form id="login" class="" method="POST" action="/login">
+                        <h4>Login</h4>
+                        {% csrf_token %}
+                        {{loginForm.as_p}}
+                        <div class="col s12">
+                            <button class="waves-effect waves-light btn red lighten-2" type="submit">Login</button>
+                            <p class="center">Not registered? <a class="modal-trigger" href="#signup_modal">Create an account</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div id="signup_modal" class="modal blue">
+                <div class="modal-content">
+                    <form id="signupModal" method="POST" action="/register">
+                        <h4>Sign Up</h4>
+                        {% csrf_token %}
+                        {{register_user_form.as_p}}
+                        {{register_profile_form.as_p}}
+                        {{address_form.as_p}}
+                        <div class="col s12">
+                            <button class="waves-effect waves-light btn red lighten-2" type="submit">Sign Up</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
             <ul id="profile-dropdown" class="dropdown-content blue">
                 <li>
                     <a href="/profile" style="color: white;"><i class="material-icons" style="color: white;">account_circle</i>Your Profile</a>
