@@ -26,15 +26,16 @@
                 {% endif %}
                 {% if user.is_authenticated %}
                 <li><a href="/logout"><i class="material-icons">logout</i></a></li>
-                {% endif %}
+                {% else %}
                 <li><a class="modal-trigger" href="#login_modal"><i class="material-icons">login</i></a></li>
+                {% endif %}
             </ul>
             <div id="login_modal" class="modal blue">
                 <div class="modal-content">
                     <form id="login" class="" method="POST" action="/login">
                         <h4>Login</h4>
                         {% csrf_token %}
-                        {{loginForm.as_p}}
+                        {{login_form.as_p}}
                         <div class="col s12">
                             <button class="waves-effect waves-light btn red lighten-2" type="submit">Login</button>
                             <p class="center">Not registered? <a class="modal-trigger" href="#signup_modal">Create an account</a></p>
