@@ -3,15 +3,29 @@ from django.http import HttpResponse
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .forms import NewUserForm, RegisterProfileForm, AddressForm, LoginForm
+from .models import *
 
 # Create your views here.
 def homepage(request):
+    default_feed_posts = []
+    if request.user.is_authenticated:
+        default_feed = CustomFeed.objects.filter(owner=request.user).filter(name='default')
+        for user_query_set in [feed.user_source.all() for feed in default_feed]:
+            for user in user_query_set:
+                user_post = Post.objects.filter(author=user.id)
+                default_feed_posts.append(user_post)
+        for group_user_query_set in [feed.group_source.all() for feed in default_feed]:
+            for user in group_user_query_set:
+                user_group_post = Post.objects.filter(author=user.id)
+                default_feed_posts.append(user_group_post)
+
     return render(request = request,
                   template_name = "homepage.html",
                   context={'register_user_form': NewUserForm,
                             'register_profile_form': RegisterProfileForm,
                             'address_form': AddressForm,
-                            'login_form': LoginForm})
+                            'login_form': LoginForm,
+                            'default_feed_posts': default_feed_posts})
 
 def profile(request):
     return render(request = request,
