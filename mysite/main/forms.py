@@ -1,8 +1,8 @@
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django import forms
-from django.forms import widgets, ModelForm
-from django.forms.widgets import TextInput, PasswordInput, DateInput
+from django.forms import widgets, ModelForm, ModelMultipleChoiceField
+from django.forms.widgets import TextInput, PasswordInput, DateInput, HiddenInput
 from .models import *
 
 class LoginForm(AuthenticationForm):
@@ -33,3 +33,26 @@ class NewUserForm(UserCreationForm):
         if commit:
             user.save()
         return user
+
+class NewCustomFeedForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        self._user = kwargs.pop('user')
+        super(NewCustomFeedForm, self).__init__(*args, **kwargs)
+        self.fields['owner'].widget = HiddenInput()
+        self.fields['owner'].required = False
+        self.fields['user_source'].required = False
+        self.fields['user_source'] = ModelMultipleChoiceField(queryset=Profile.objects.filter(profileUser=self._user).first().friendlist)
+        self.fields['group_source'].required = False
+        self.fields['group_source'] = ModelMultipleChoiceField(queryset=Group.objects.filter(members=self._user))
+
+    def save(self, commit=True):
+        inst = super(NewCustomFeedForm, self).save(commit=False)
+        inst.owner = self._user
+        if commit:
+            inst.save()
+            self.save_m2m()
+        return inst
+
+    class Meta:
+        model = CustomFeed
+        fields = '__all__'
