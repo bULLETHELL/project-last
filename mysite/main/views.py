@@ -2,12 +2,13 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .forms import NewUserForm, RegisterProfileForm, AddressForm, LoginForm
+from .forms import NewUserForm, RegisterProfileForm, AddressForm, LoginForm, NewCustomFeedForm
 from .models import *
 
 # Create your views here.
 def homepage(request):
     default_feed_posts = []
+    current_user_custom_feeds = []
     if request.user.is_authenticated:
         default_feed = CustomFeed.objects.filter(owner=request.user).filter(name='default')
         for user_query_set in [feed.user_source.all() for feed in default_feed]:
@@ -18,14 +19,59 @@ def homepage(request):
             for user in group_user_query_set:
                 user_group_post = Post.objects.filter(author=user.id)
                 default_feed_posts.append(user_group_post)
+        current_user_custom_feeds = CustomFeed.objects.filter(owner=request.user).exclude(name='default')
 
+        return render(request = request,
+                      template_name = "homepage.html",
+                      context={'register_user_form': NewUserForm,
+                               'register_profile_form': RegisterProfileForm,
+                               'address_form': AddressForm,
+                               'login_form': LoginForm,
+                               'new_custom_feed_form': NewCustomFeedForm(user=request.user),
+                               'default_feed_posts': default_feed_posts,
+                               'current_user_custom_feeds': current_user_custom_feeds,
+                               'current_user': request.user})
+    else:
+        return render(request = request,
+                      template_name='landing_page.html',
+                      context={'register_user_form': register_user_form,
+                               'register_profile_form': register_profile_form})
+
+def custom_feed(request, feed_id):
+    custom_feed_posts = []
+    current_user_custom_feeds = []
+    if request.user.is_authenticated:
+        feeds = CustomFeed.objects.filter(id=feed_id)
+        for user_query_set in [feed.user_source.all() for feed in feeds]:
+            for user in user_query_set:
+                user_post = Post.objects.filter(author=user.id)
+                custom_feed_posts.append(user_post)
+        for group_user_query_set in [feed.group_source.all() for feed in feeds]:
+            for user in group_user_query_set:
+                user_group_post = Post.objects.filter(author=user.id)
+                custom_feed_posts.append(user_group_post)
+        current_user_custom_feeds = CustomFeed.objects.filter(owner=request.user).exclude(name='default')
     return render(request = request,
-                  template_name = "homepage.html",
-                  context={'register_user_form': NewUserForm,
-                            'register_profile_form': RegisterProfileForm,
-                            'address_form': AddressForm,
-                            'login_form': LoginForm,
-                            'default_feed_posts': default_feed_posts})
+                  template_name = "custom_feed.html",
+                  context={'custom_feed_posts': custom_feed_posts,
+                           'feeds': feeds,
+                           'current_user_custom_feeds':current_user_custom_feeds})
+
+def new_custom_feed(request):
+    if request.method == 'POST' and request.user.is_authenticated:
+        new_custom_feed_form = NewCustomFeedForm(request.POST, user=request.user)
+        print(new_custom_feed_form.errors.as_data())
+
+        if new_custom_feed_form.is_valid():
+            custom_feed = new_custom_feed_form.save()
+
+            return redirect('main:homepage')
+        else:
+            new_custom_feed_form = NewCustomFeedForm(user=request.user)
+
+    return render(request=request,
+                  template_name='homepage.html',
+                  context={'new_custom_feed_form': new_custom_feed_form})
 
 def profile(request):
     return render(request = request,

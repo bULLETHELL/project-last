@@ -2,8 +2,8 @@
 <body>
 	{% block content %}
 	<div>
-		<h5 style="text-align: center; color: white; font-weight: bold">Default Feed</h5>
-		{% for posts in default_feed_posts %}
+		<h5 style="text-align: center; color: white; font-weight: bold">{{feeds.first.name}}</h5>
+		{% for posts in custom_feed_posts %}
 		{% for post in posts.all %}
 		<div class="row">
 			<div class="col m3"></div>
@@ -56,7 +56,6 @@
 	<script>
 		$(document).ready(function(){
 			$('.modal').modal();
-            $('.select').formSelect();
 		});
 	</script>
 	{% endblock content %}
