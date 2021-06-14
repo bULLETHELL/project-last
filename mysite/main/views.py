@@ -76,13 +76,17 @@ def new_custom_feed(request):
                   template_name='homepage.html',
                   context={'new_custom_feed_form': new_custom_feed_form})
 
-def profile(request):
+def profile(request, profile_id):
+    if request.method == "GET":
+        user_to_display = User.objects.filter(id=profile_id)
+        print(user_to_display)
     return render(request = request,
                   template_name = 'profile.html',
                   context={'register_user_form': NewUserForm,
                             'register_profile_form': RegisterProfileForm,
                             'address_form': AddressForm,
-                            'login_form': LoginForm})
+                            'login_form': LoginForm,
+                            'current_user': request.user})
 
 def register(request):
     if request.method == 'POST':

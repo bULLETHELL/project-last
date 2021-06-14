@@ -59,10 +59,10 @@
             </div>
             <ul id="profile-dropdown" class="dropdown-content blue">
                 <li>
-                    <a href="/profile" style="color: white;"><i class="material-icons" style="color: white;">account_circle</i>Your Profile</a>
+                    <a href="/profile/{{current_user.id}}" style="color: white;"><i class="material-icons" style="color: white;">account_circle</i>Your Profile</a>
                 </li>
                 <li>
-                    <a href="/profile/settings" style="color: white;"><i class="material-icons" style="color: white;">settings</i>Settings</a>
+                    <a href="/profile/{{current_user.id}}/settings" style="color: white;"><i class="material-icons" style="color: white;">settings</i>Settings</a>
                 </li>
             </ul>
         </div>
