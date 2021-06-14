@@ -54,3 +54,22 @@ class NewCustomFeedForm(forms.ModelForm):
     class Meta:
         model = CustomFeed
         fields = '__all__'
+
+class NewPostForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        self._user = kwargs.pop('user')
+        super(NewPostForm, self).__init__(*args, **kwargs)
+        self.fields['author'].widget = HiddenInput()
+        self.fields['author'].required = False
+        self.fields['score'].widget = HiddenInput()
+
+    def save(self, commit=True):
+        inst = super(NewPostForm, self).save(commit=False)
+        inst.author = self._user
+        if commit:
+            inst.save()
+        return inst
+
+    class Meta:
+        model = Post
+        fields = '__all__'

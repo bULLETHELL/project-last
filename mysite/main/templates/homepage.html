@@ -3,7 +3,42 @@
 	{% block content %}
 	<div>
 		<h5 style="text-align: center; color: white; font-weight: bold">Default Feed</h5>
+		<div class="row">
+			<div class="col m3"></div>
+			<div class="col m6">
+				<div class="col s12 m6">
+					<div class="card blue z-depth-3" style="outline: 2px white;">
+						<div class="card-content white-text">
+							<form id="newPostForm" method="POST" action="/new_post">
+								<h4 style="color: white;">New Post</h4>
+								{% csrf_token %}
+								<div class="row">
+									<div class="input-field col s12">
+										{{new_post_form.author}}
+									</div>
+								</div>
+								<div class="row">
+									<div class="input-field col s12">
+										{{new_post_form.content}}
+										<label for={{new_post_form.content.id_for_label}} style="color: white;">{{new_post_form.content.label}}</label>
+									</div>
+								</div>
+								<div class="row">
+									<div class="input-field col s12">
+										{{new_post_form.score}}
+									</div>
+								</div>
+								<button class="waves-effect waves-light btn" type="submit">Post</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col m3"></div>
+		</div>
 		{% for posts in default_feed_posts %}
+		{% empty %}
+		<h5 style="text-align: center; color: white;">Nothing to see here</h5>
 		{% for post in posts.all %}
 		<div class="row">
 			<div class="col m3"></div>
@@ -49,8 +84,6 @@
 			</div>
 		</div>
 		{% endfor %}
-		{% empty %}
-		<h5 style="text-align: center; color: white;">Nothing to see here</h5>
 		{% endfor %}
 	</div>
 	<script>

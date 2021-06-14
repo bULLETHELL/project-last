@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .forms import NewUserForm, RegisterProfileForm, AddressForm, LoginForm, NewCustomFeedForm
+from .forms import NewUserForm, RegisterProfileForm, AddressForm, LoginForm, NewCustomFeedForm, NewPostForm
 from .models import *
 
 # Create your views here.
@@ -28,6 +28,7 @@ def homepage(request):
                                'address_form': AddressForm,
                                'login_form': LoginForm,
                                'new_custom_feed_form': NewCustomFeedForm(user=request.user),
+                               'new_post_form': NewPostForm(initial={'score': 0}, user=request.user),
                                'default_feed_posts': default_feed_posts,
                                'current_user_custom_feeds': current_user_custom_feeds,
                                'current_user': request.user})
@@ -84,6 +85,22 @@ def delete_custom_feed(request):
 
     return render(request=request,
                   template_name='homepage.html')
+
+def new_post(request):
+    if request.method == 'POST':
+        new_post_form = NewPostForm(request.POST, initial={'score': 0}, user=request.user)
+        print(new_post_form.errors.as_data())
+
+        if new_post_form.is_valid():
+            new_post = new_post_form.save()
+
+            return redirect(request.META.get('HTTP_REFERER', '/'))
+        else:
+            new_post_form = NewPostForm(initial={'score': 0}, user=request.user)
+
+    return render(request=request,
+                  template_name='homepage.html',
+                  context={'new_post_form': new_post_form})
 
 def profile(request):
     return render(request = request,
