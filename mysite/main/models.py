@@ -34,8 +34,8 @@ class Group(models.Model):
 class CustomFeed(models.Model):
     name = CharField(max_length=50)
     owner = ForeignKey(User, on_delete=CASCADE, related_name="feedOwner")
-    user_source = ManyToManyField(User)
-    group_source = ManyToManyField(Group)
+    user_source = ManyToManyField(User, blank=True)
+    group_source = ManyToManyField(Group, blank=True)
     def __str__(self):
         return f"{self.name}"
 
