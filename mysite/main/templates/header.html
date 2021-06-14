@@ -71,7 +71,14 @@
         <h5 style="margin-left: 20px; color: white;">Feeds</h5>
         <li><a class="waves-effect waves-light" href="/" style="color: white;"><i class="material-icons" style="color: white;">dashboard</i>Default Feed</a></li>
         {% for custom_feed in current_user_custom_feeds.all %}
-        <li><a class="waves-effect waves-light" href="/feed/{{custom_feed.id}}" style="color: white;"><i class="material-icons" style="color: white;">dashboard</i>{{custom_feed.name}}</a></li>
+        <li>
+            <a class="waves-effect waves-light" href="/feed/{{custom_feed.id}}" style="color: white; float: left;"><i class="material-icons" style="color: white;">dashboard</i>{{custom_feed.name}}</a>
+            <form method="POST" action="/delete_custom_feed" style="float: relative;">
+                {% csrf_token %}
+                <input name="custom_feed_to_be_deleted" type="hidden" value={{custom_feed.id}}>
+                <button class="btn red" type="submit"><i class="material-icons">delete</i></button>
+            </form>
+        </li>
         {% endfor %}
         <li>
             <a href="#createCustomFeedModal" class="modal-trigger" style="color: white;">
