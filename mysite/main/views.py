@@ -34,8 +34,10 @@ def homepage(request):
     else:
         return render(request = request,
                       template_name='landing_page.html',
-                      context={'register_user_form': register_user_form,
-                               'register_profile_form': register_profile_form})
+                      context={'register_user_form': NewUserForm,
+                               'register_profile_form': RegisterProfileForm,
+                               'address_form': AddressForm,
+                               'login_form': LoginForm})
 
 def custom_feed(request, feed_id):
     custom_feed_posts = []
@@ -55,6 +57,7 @@ def custom_feed(request, feed_id):
                   template_name = "custom_feed.html",
                   context={'custom_feed_posts': custom_feed_posts,
                            'feeds': feeds,
+                           'new_custom_feed_form': NewCustomFeedForm(user=request.user),
                            'current_user_custom_feeds':current_user_custom_feeds})
 
 def new_custom_feed(request):

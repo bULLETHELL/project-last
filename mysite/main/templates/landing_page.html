@@ -1,0 +1,49 @@
+<head>
+	<!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</head>
+<body style="background-color: dodgerblue">
+    <div class="container">
+        <form id="login" class="" method="POST" action="/login">
+            <h4 style="color: white;">Login</h4>
+            {% csrf_token %}
+            {{login_form.as_p}}
+            <div class="col s12">
+                <button class="waves-effect waves-light btn red lighten-2" type="submit">Login</button>
+                <p class="center" style="color: white;">Not registered? <a class="modal-trigger" href="#signup_modal" style="color: white;">Create an account</a></p>
+            </div>
+        </form>
+        <div id="signup_modal" class="modal blue">
+            <div class="modal-content">
+                <form id="signupModal" method="POST" action="/register">
+                    <h4 style="color: white;">Sign Up</h4>
+                    {% csrf_token %}
+                    {{register_user_form.as_p}}
+                    {{register_profile_form.as_p}}
+                    {{address_form.as_p}}
+                    <div class="col s12">
+                        <button class="waves-effect waves-light btn red lighten-2" type="submit">Sign Up</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function(){
+            $('.sidenav').sidenav();
+            $('.dropdown-trigger').dropdown({
+                coverTrigger: false
+            });
+            $('.modal').modal();
+            $('.select').formSelect();
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('select');
+            var instances = M.FormSelect.init(elems);
+        });
+    </script>
+</body>

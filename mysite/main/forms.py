@@ -40,10 +40,8 @@ class NewCustomFeedForm(forms.ModelForm):
         super(NewCustomFeedForm, self).__init__(*args, **kwargs)
         self.fields['owner'].widget = HiddenInput()
         self.fields['owner'].required = False
-        self.fields['user_source'].required = False
-        self.fields['user_source'] = ModelMultipleChoiceField(queryset=Profile.objects.filter(profileUser=self._user).first().friendlist)
-        self.fields['group_source'].required = False
-        self.fields['group_source'] = ModelMultipleChoiceField(queryset=Group.objects.filter(members=self._user))
+        self.fields['user_source'] = ModelMultipleChoiceField(queryset=Profile.objects.filter(profileUser=self._user).first().friendlist, required=False)
+        self.fields['group_source'] = ModelMultipleChoiceField(queryset=Group.objects.filter(members=self._user), required=False)
 
     def save(self, commit=True):
         inst = super(NewCustomFeedForm, self).save(commit=False)
