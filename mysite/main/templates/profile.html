@@ -11,7 +11,7 @@
 							<img src="https://64.media.tumblr.com/avatar_ac798bf64e72_128.pnj" alt="" class="circle responsive-img" style="display: inline">
 							</div>
 							<div class="col s10">
-								<span class="card-title">Michael Johnson</span>
+								<span class="card-title">{{user_to_display.first_name}} {{user_to_display.last_name}}</span>
 							</div>
 						</div>
 						<div class="divider">
@@ -21,7 +21,7 @@
 								<span class="material-icons" style="color: white; font-size: 3rem;">work</span>
 							</div>
 							<div class="col s10">
-								<a style="color: white;">HR</a>
+								<a style="color: white;">{{user_profile_to_display.work_position}}</a>
 							</div>
 						</div>
 						<div class="row valign-wrapper">
@@ -29,7 +29,7 @@
 								<span class="material-icons" style="color: white; font-size: 3rem;">contact_phone</span>
 							</div>
 							<div class="col s10">
-								<a style="color: white;">88 88 88 88</a>
+								<a style="color: white;">+45 {{user_profile_to_display.profilePhoneNumber}}</a>
 							</div>
 						</div>
 						<div class="row valign-wrapper">
@@ -37,7 +37,7 @@
 								<span class="material-icons" style="color: white; font-size: 3rem;">contact_mail</span>
 							</div>
 							<div class="col s10">
-								<a style="color: white;">michaeljohnson@gmail.com</a>
+								<a style="color: white;">{{user_to_display.email}}</a>
 							</div>
 						</div>
 					</div>
@@ -56,7 +56,7 @@
 							<img src="https://64.media.tumblr.com/avatar_ac798bf64e72_128.pnj" alt="" class="circle responsive-img" style="display: inline">
 						</div>
 						<div class="col s10">
-							<span href="/profile/5" class="card-title">{{post.author}}</span>
+							<span href="/profile/5" class="card-title">{{post.author.first_name}}{{post.author.last_name}}</span>
 						<p>{{post.content}}</p>
 					</div>
 				</div>
