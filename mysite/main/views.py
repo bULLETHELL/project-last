@@ -76,7 +76,16 @@ def new_custom_feed(request):
                   template_name='homepage.html',
                   context={'new_custom_feed_form': new_custom_feed_form})
 
-def profile(request, user_id):
+def delete_custom_feed(request):
+    if request.method == 'POST':
+        CustomFeed.objects.filter(id=request.POST.get("custom_feed_to_be_deleted")).delete()
+
+        return redirect(request.META.get('HTTP_REFERER', '/'))
+
+    return render(request=request,
+                  template_name='homepage.html')
+
+def profile(request):
     if request.method == "GET":
         user_to_display = User.objects.get(id=user_id)
         user_profile_to_display = Profile.objects.get(profileUser=user_to_display)
