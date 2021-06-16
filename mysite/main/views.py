@@ -86,12 +86,20 @@ def delete_custom_feed(request):
                   template_name='homepage.html')
 
 def profile(request):
+    if request.method == "GET":
+        user_to_display = User.objects.get(id=user_id)
+        user_profile_to_display = Profile.objects.get(profileUser=user_to_display)
+        posts = Post.objects.filter(author=user_to_display)
     return render(request = request,
                   template_name = 'profile.html',
                   context={'register_user_form': NewUserForm,
                             'register_profile_form': RegisterProfileForm,
                             'address_form': AddressForm,
-                            'login_form': LoginForm})
+                            'login_form': LoginForm,
+                            'current_user': request.user,
+                            'user_to_display': user_to_display,
+                            'user_profile_to_display': user_profile_to_display,
+                            'user_posts': posts})
 
 def register(request):
     if request.method == 'POST':

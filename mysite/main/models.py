@@ -42,6 +42,7 @@ class CustomFeed(models.Model):
 
 class Profile(models.Model):
     profileUser = OneToOneField(User, on_delete=CASCADE)
+    work_position = CharField(max_length=50)
     profilePhoneNumber = DecimalField(decimal_places=0, max_digits=8)
     profileAddress = ForeignKey(Address, on_delete=CASCADE)
     friendlist = ManyToManyField(User, related_name="userFriendlist")
