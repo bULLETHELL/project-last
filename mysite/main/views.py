@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .forms import NewUserForm, RegisterProfileForm, AddressForm, LoginForm, NewCustomFeedForm, NewPostForm
+from .forms import NewUserForm, RegisterProfileForm, AddressForm, LoginForm, NewCustomFeedForm, NewPostForm, NewPostCommentForm
 from .models import *
 
 # Create your views here.
@@ -101,6 +101,22 @@ def new_post(request):
     return render(request=request,
                   template_name='homepage.html',
                   context={'new_post_form': new_post_form})
+
+def new_post_comment(request, post_id):
+    if request.method == 'POST':
+        new_post_comment_form = NewPostCommentForm(request.POST, initial={'score': 0}, user=request.user, parent_post=Post.objects.filter(id=post_id))
+        print(new_post_comment_form.errors.as_data())
+
+        if new_post_comment_form.is_valid():
+            new_post_comment = new_post_comment_form.save()
+
+            return redirect(request.META.get('HTTP_REFERER', '/'))
+        else:
+            new_post_comment_form = NewPostCommentForm(initial={'score': 0}, user=request.user, parent_post=Post.objects.filter(id=post_id))
+
+    return render(request=request,
+                  template_name='custom_feed.html',
+                  context={'new_post_comment_form': new_post_comment_form})
 
 def profile(request):
     return render(request = request,

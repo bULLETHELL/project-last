@@ -6,7 +6,7 @@
 		<div class="row">
 			<div class="col m3"></div>
 			<div class="col m6">
-				<div class="col s12 m6">
+				<div class="col s12">
 					<div class="card blue z-depth-3" style="outline: 2px white;">
 						<div class="card-content white-text">
 							<form id="newPostForm" method="POST" action="/new_post">
@@ -34,7 +34,6 @@
 					</div>
 				</div>
 			</div>
-			<div class="col m3"></div>
 		</div>
 		{% for posts in default_feed_posts %}
 		{% empty %}
@@ -63,12 +62,30 @@
 									<div class="modal-content">
 										<h4>Reply</h4>
 										<div class="row">
-											<form class="col s12">
+											<form class="col s12" id="newPostCommentForm" action="/new_post_comment_form/{{post.id}}" method="POST">
+												{% csrf_token %}
 												<div class="row">
 													<div class="input-field col s12">
-														<textarea id="reply" class="materialize-textarea" placeholder="Reply Text"></textarea>
+														{{new_post_comment_form.content}}
+														<label for={{new_post_comment_form.content.id_for_label}} style="color: white;">{{new_post_comment_form.content.label}}</label>
 													</div>
 												</div>
+												<div class="row">
+													<div class="input-field col s12">
+														{{new_post_comment_form.author}}
+													</div>
+												</div>
+												<div class="row">
+													<div class="input-field col s12">
+														{{new_post_comment_form.score}}
+													</div>
+												</div>
+												<div class="row">
+													<div class="input-field col s12">
+														{{new_post_comment_form.parent_post}}
+													</div>
+												</div>
+												<button class="waves-effect waves-light btn" type="submit">Post Comment</button>
 											</form>
 										</div>
 									</div>

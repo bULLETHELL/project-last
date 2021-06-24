@@ -2,7 +2,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django import forms
 from django.forms import widgets, ModelForm, ModelMultipleChoiceField
-from django.forms.widgets import TextInput, PasswordInput, DateInput, HiddenInput
+from django.forms.widgets import TextInput, PasswordInput, DateInput, HiddenInput, Textarea
 from .models import *
 
 class LoginForm(AuthenticationForm):
@@ -62,6 +62,7 @@ class NewPostForm(forms.ModelForm):
         self.fields['author'].widget = HiddenInput()
         self.fields['author'].required = False
         self.fields['score'].widget = HiddenInput()
+        self.fields['content'].widget = Textarea(attrs={'class':'materialize-textarea', 'data-length':'500'})
 
     def save(self, commit=True):
         inst = super(NewPostForm, self).save(commit=False)
@@ -72,4 +73,28 @@ class NewPostForm(forms.ModelForm):
 
     class Meta:
         model = Post
+        fields = '__all__'
+
+class NewPostCommentForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        self._user = kwargs.pop('user')
+        self._parent_post = kwargs.pop('parent_post')
+        super(NewPostCommentForm, self).__init__(*args, **kwargs)
+        self.fields['author'].widget = HiddenInput()
+        self.fields['author'].required = False
+        self.fields['score'].widget = HiddenInput()
+        self.fields['content'].widget = Textarea(attrs={'class':'materialize-textarea', 'data-length':'500'})
+        self.fields['parent_post'].widget = HiddenInput()
+        self.fields['parent_post'].required = False
+
+    def save(self, commit=True):
+        inst = super(NewPostCommentForm, self).save(commit=False)
+        inst.author = self._user
+        inst.parent_post = self._parent_post
+        if commit:
+            inst.save()
+        return inst
+
+    class Meta:
+        model = PostComment
         fields = '__all__'
