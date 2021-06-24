@@ -85,7 +85,7 @@ def delete_custom_feed(request):
     return render(request=request,
                   template_name='homepage.html')
 
-def profile(request):
+def profile(request, user_id):
     if request.method == "GET":
         user_to_display = User.objects.get(id=user_id)
         user_profile_to_display = Profile.objects.get(profileUser=user_to_display)
