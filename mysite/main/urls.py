@@ -7,6 +7,7 @@ urlpatterns = [
     path("", views.homepage, name="homepage"),
     path("feed/<int:feed_id>", views.custom_feed, name="feed"),
     path("new_custom_feed", views.new_custom_feed, name="new_custom_feed"),
+    path("profile/<int:user_id>", views.profile, name="profile"),
     path("delete_custom_feed", views.delete_custom_feed, name="delete_custom_feed"),
     path("new_post", views.new_post, name="new_post"),
     path("profile", views.profile, name="profile"),
